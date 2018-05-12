@@ -6,15 +6,18 @@ function db($db = null){
 	$USER = "root"; 
 	$HOST = "localhost";
 	$PWD = "toor";
-	$DB = is_null($db) ? "sharp" : $db;
+	$DB = is_null($db) ? "tablo" : $db;
 	
-	$i = $con = new mysqli($HOST, $USER, $PWD, $DB);
-	return $i;
+	$con = new mysqli($HOST, $USER, $PWD, $DB);
+	
+	return $con;
 	
 }
 
 $db = db();
-$table = "users";
+
+
+$table = isset($_SESSION["table"])? $_SESSION["table"] : "users";
 
 
 function spill($i){ echo "<pre>"; print_r($i); echo "</pre>"; } // var_dump et al
@@ -54,4 +57,17 @@ function update(){
 	process($sql);
 }
 
+function arrlist($i){
+	$z = [];
+	foreach($i as $j=>$k){
+		if(count($k)>2){
+			$z[current($k)] = $k;
+		}else{
+			$z[current($k)] = end($k);
+		}
+	}
+	return $z;
+}
+
 include("nav.php");
+include("fieldsets.php");
